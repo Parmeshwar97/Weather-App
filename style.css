@@ -1,0 +1,128 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body {
+  background: #1e1e1e;
+  color: #171717;
+  display: flex;
+  justify-content: center;
+  padding-top: 4rem;
+}
+.container {
+  width: 40%;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+#search {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  height: 35px;
+  padding-left: 3rem;
+  border-radius: 5px;
+  outline: none;
+}
+.weather_search {
+  position: relative;
+}
+.search_icon {
+  position: absolute;
+  top: 11px;
+  left: 15px;
+  color: #fff;
+}
+input::placeholder {
+  color: #fff;
+}
+.weather_info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin-top: 10px;
+}
+.weather_card {
+  width: 45%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  background-color: #f7f7f7;
+  border-radius: 10px;
+  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.2);
+}
+.weather_body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.temperature {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+.temp {
+  text-align: center;
+  font-size: 30px;
+  margin: 5px 0;
+}
+.weather_min,
+.weather_max {
+  display: inline-block;
+  font-size: small;
+}
+.weather_max {
+  margin-left: 5px;
+}
+.weather_card i {
+  font-size: larger;
+  margin: 10px;
+}
+.weather_icon {
+  width: 100%;
+  text-align: center;
+}
+.weather_icon img {
+  width: 100px;
+  filter: drop-shadow(2px 5px 4px rgba(0, 0, 0, 0.8));
+}
+.weather_data .weather_forecast {
+  background-color: #000;
+  border-radius: 1rem 1.5rem;
+  height: 40px;
+  color: #fff;
+  display: inline-block;
+  text-align: center;
+  padding: 0.5rem;
+}
+.weather_data {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 5px;
+}
+@media (max-width: 936px) {
+  .container {
+    width: 90%;
+  }
+}
+@media (max-width: 400px) {
+  .weather_info {
+    flex-direction: column;
+  }
+  .weather_card {
+    width: 100%;
+  }
+}
