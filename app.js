@@ -14,15 +14,69 @@ let humidity = document.querySelector(".weather_humidity");
 let wind_speed = document.querySelector(".weather_wind");
 
 let pressure = document.querySelector(".weather_pressure");
-let weather_search = document.querySelector('.weather_search')
-let city_name = 'mumbai';
+let weather_search = document.querySelector(".weather_search");
+let city_name = "";
 
-weather_search.addEventListener('submit',(e)=>{
-  e.preventDefault();  
+let weather_page = document.querySelector("[weatherPage]");
+let location_page = document.querySelector("[locationPage]");
+let grant_location = document.querySelector("[grantLocation]");
+
+// Check coordinates in local Storage
+
+function checkCoordinates() {
+  let userCoordinates = JSON.parse(localStorage.getItem("userCoordinates"));
+  console.log(userCoordinates);
+
+  if (!userCoordinates) {
+    let lat = userCoordinates.lat;
+    let lon = userCoordinates.lon;
+    showUserWeather(lat, lon);
+  } else {
+    location_page.classList.remove("active");
+    getUserLocation();
+    weather_page.classList.add("active");
+  }
+}
+
+// Show Weather according to User's location
+
+function getUserLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(showPosition);
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
+}
+function showPosition(position) {
+  const userCoordinates = {
+    lat: position.coords.latitude,
+    lon: position.coords.longitude,
+  };
+  localStorage.setItem("userCoordinates", JSON.stringify(userCoordinates));
+  showUserWeather(userCoordinates.lat, userCoordinates.lon);
+}
+
+async function showUserWeather(lat, lon) {
+  const apiKey = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${config.MY_KEY}`;
+  let data = await fetch(apiKey);
+  data = await data.json();
+  displayInfo(data);
+}
+
+grant_location.addEventListener("click", () => {
+  location_page.classList.remove("active");
+  getUserLocation();
+  weather_page.classList.add("active");
+});
+
+// Show weather according user's search
+
+weather_search.addEventListener("submit", (e) => {
+  e.preventDefault();
   city_name = "" + search.value;
   search.value = "";
   getWeatherInfo();
-})
+});
 
 let getCounty = (code) => {
   return new Intl.DisplayNames([code], { type: "region" }).of(code);
@@ -54,33 +108,37 @@ let getDate = () => {
 };
 
 async function getWeatherInfo() {
-  try { 
-    let API = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&APPID=375cb8367e49f3897cf05ec0e07ada95`;
+  try {
+    let API = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&APPID=${config.MY_KEY}`;
 
     let data = await fetch(API);
     data = await data.json();
-    console.log(data);
-
-    let { name, dt, weather, main, wind, sys } = data;
-
-    w_location.textContent = `${name}, ${getCounty(sys.country)}`;
-    date_time.innerHTML = getDate(sys.country) + " at " + getTime(dt);
-
-    w_forecast.textContent = weather[0].main;
-    weather_icon.innerHTML = `<img src="http://openweathermap.org/img/wn/${weather[0].icon}@4x.png" />`;
-
-    temp.innerHTML = main.temp + "&#176";
-
-    minTemp.innerHTML = `Min: ${main.temp_min.toFixed()}&#176`;
-    maxTemp.innerHTML = `Max: ${main.temp_max.toFixed()}&#176`;
-    feels_like.innerHTML = `${main.feels_like.toFixed()}&#176`;
-
-    humidity.innerHTML = main.humidity + "%";
-    wind_speed.innerHTML = wind.speed + " m/s";
-    pressure.innerHTML = main.pressure + " hPa";
+    displayInfo(data);
   } catch (err) {
     console.log(err);
   }
 }
 
-document.body.addEventListener("load", getWeatherInfo());
+//Display Weather data
+
+function displayInfo(data) {
+  let { name, dt, weather, main, wind, sys } = data;
+
+  w_location.textContent = `${name}, ${getCounty(sys.country)}`;
+  date_time.innerHTML = getDate(sys.country) + " at " + getTime(dt);
+
+  w_forecast.textContent = weather[0].main;
+  weather_icon.innerHTML = `<img src="http://openweathermap.org/img/wn/${weather[0].icon}@4x.png" />`;
+
+  temp.innerHTML = main.temp + "&#176";
+
+  minTemp.innerHTML = `Min: ${main.temp_min.toFixed()}&#176`;
+  maxTemp.innerHTML = `Max: ${main.temp_max.toFixed()}&#176`;
+  feels_like.innerHTML = `${main.feels_like.toFixed()}&#176`;
+
+  humidity.innerHTML = main.humidity + "%";
+  wind_speed.innerHTML = wind.speed + " m/s";
+  pressure.innerHTML = main.pressure + " hPa";
+}
+
+document.body.addEventListener("load", checkCoordinates());
