@@ -21,6 +21,7 @@ let weather_page = document.querySelector("[weatherPage]");
 let location_page = document.querySelector("[locationPage]");
 let grant_location = document.querySelector("[grantLocation]");
 
+let loader = document.querySelector(".loader");
 // Check coordinates in local Storage
 
 function checkCoordinates() {
@@ -58,8 +59,10 @@ function showPosition(position) {
 
 async function showUserWeather(lat, lon) {
   const apiKey = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${config.MY_KEY}`;
+  loader.classList.add('active')
   let data = await fetch(apiKey);
   data = await data.json();
+  loader.classList.remove("active");
   displayInfo(data);
 }
 

@@ -150,6 +150,12 @@ input::placeholder {
   border-radius: 50%;
   margin-bottom: 0.8rem;
 }
+.loader img{
+  width: 180px;
+}
+.loader{
+  display: none;
+}
 .grant-btn {
   background-color: #6ac067;
   border-radius: 5px;
