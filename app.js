@@ -29,13 +29,13 @@ function checkCoordinates() {
   console.log(userCoordinates);
 
   if (!userCoordinates) {
+    location_page.classList.add("active");
     let lat = userCoordinates.lat;
     let lon = userCoordinates.lon;
     showUserWeather(lat, lon);
   } else {
     location_page.classList.remove("active");
     getUserLocation();
-    weather_page.classList.add("active");
   }
 }
 
@@ -59,10 +59,12 @@ function showPosition(position) {
 
 async function showUserWeather(lat, lon) {
   const apiKey = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${config.MY_KEY}`;
-  loader.classList.add('active')
+  weather_page.classList.remove("active");
+  loader.classList.add("active");
   let data = await fetch(apiKey);
   data = await data.json();
   loader.classList.remove("active");
+  weather_page.classList.add("active");
   displayInfo(data);
 }
 
@@ -113,9 +115,12 @@ let getDate = () => {
 async function getWeatherInfo() {
   try {
     let API = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&APPID=${config.MY_KEY}`;
-
+    loader.classList.add("active");
+    weather_page.classList.remove("active");
     let data = await fetch(API);
     data = await data.json();
+    loader.classList.remove("active");
+    weather_page.classList.add("active");
     displayInfo(data);
   } catch (err) {
     console.log(err);

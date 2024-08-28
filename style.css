@@ -145,16 +145,21 @@ input::placeholder {
   display: none;
 }
 .grant-location img {
-  width: 130px;
   background-color: #3cf939;
   border-radius: 50%;
   margin-bottom: 0.8rem;
 }
-.loader img{
-  width: 180px;
-}
-.loader{
+
+.loader {
+  height: 66vh;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 7rem;
+  padding: 4rem 0px;
   display: none;
+}
+.loader h2 {
+  color: rgb(19, 91, 120);
 }
 .grant-btn {
   background-color: #6ac067;
