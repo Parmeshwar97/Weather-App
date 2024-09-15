@@ -115,7 +115,7 @@ let getDate = () => {
 
 async function getWeatherInfo() {
   try {
-    let API = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&APPID=${config.MY_KEY}@unit=matric`;
+    let API = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&APPID=${config.MY_KEY}&units=metric`;
     loader.classList.add("active");
     weather_page.classList.remove("active");
     let data = await fetch(API);
