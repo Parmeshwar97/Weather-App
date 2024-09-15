@@ -1,3 +1,4 @@
+
 let w_location = document.querySelector(".weather_city");
 let date_time = document.querySelector(".weather_date_time");
 
@@ -58,7 +59,7 @@ function showPosition(position) {
 }
 
 async function showUserWeather(lat, lon) {
-  const apiKey = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${config.MY_KEY}`;
+  const apiKey = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${config.MY_KEY}&units=metric`;
   weather_page.classList.remove("active");
   loader.classList.add("active");
   let data = await fetch(apiKey);
