@@ -1,4 +1,3 @@
-
 let w_location = document.querySelector(".weather_city");
 let date_time = document.querySelector(".weather_date_time");
 
@@ -23,11 +22,13 @@ let location_page = document.querySelector("[locationPage]");
 let grant_location = document.querySelector("[grantLocation]");
 
 let loader = document.querySelector(".loader");
+let sub_container = document.querySelector(".sub_container");
+let no_city = document.querySelector(".no-city");
+
 // Check coordinates in local Storage
 
 function checkCoordinates() {
   let userCoordinates = JSON.parse(localStorage.getItem("userCoordinates"));
-  console.log(userCoordinates);
 
   if (!userCoordinates) {
     location_page.classList.add("active");
@@ -59,10 +60,10 @@ function showPosition(position) {
 }
 
 async function showUserWeather(lat, lon) {
-  const apiKey = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&APPID=${config.MY_KEY}&units=metric`;
+  const api = `${config.api}lat=${lat}&lon=${lon}&APPID=${config.MY_KEY}&units=metric`;
   weather_page.classList.remove("active");
   loader.classList.add("active");
-  let data = await fetch(apiKey);
+  let data = await fetch(api);
   data = await data.json();
   loader.classList.remove("active");
   weather_page.classList.add("active");
@@ -113,18 +114,27 @@ let getDate = () => {
   return dateObj.toLocaleDateString("en-US", options);
 };
 
+// Get Weather data from API
+
 async function getWeatherInfo() {
   try {
-    let API = `https://api.openweathermap.org/data/2.5/weather?q=${city_name}&APPID=${config.MY_KEY}&units=metric`;
+    let API = `${config.api}q=${city_name}&APPID=${config.MY_KEY}&units=metric`;
     loader.classList.add("active");
     weather_page.classList.remove("active");
+
+    no_city.classList.add("disabled");
+    sub_container.classList.remove("disabled");
+
     let data = await fetch(API);
+    
     data = await data.json();
     loader.classList.remove("active");
     weather_page.classList.add("active");
     displayInfo(data);
+
   } catch (err) {
-    console.log(err);
+      handleErrors();
+      console.log(err);
   }
 }
 
@@ -151,3 +161,9 @@ function displayInfo(data) {
 }
 
 document.body.addEventListener("load", checkCoordinates());
+
+function handleErrors() {
+  no_city.classList.remove("disabled");
+  sub_container.classList.add("disabled");
+  console.log("no city found");
+}
