@@ -5,14 +5,15 @@
   font-family: "Poppins", sans-serif;
 }
 html{
-
+  max-height: max-content;
+  min-height:100vh ;
   background-image: linear-gradient(to right bottom, #617994, #b8b8bf);
   color: #171717;
 }
 body {
   display: flex;
   justify-content: center;
-  margin: 5rem 0px;
+  margin: 4rem 0px;
 }
 .container {
   width: 30%;
@@ -187,6 +188,6 @@ input::placeholder {
       width: 100%;
     }
     body{
-      padding: .8rem 0px;
+      margin: .8rem 0px;
     }
   }
